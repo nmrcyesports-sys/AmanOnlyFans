@@ -28,7 +28,7 @@ export default function Navbar() {
         transition={{ duration: 1, delay: 0.5 }}
         className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[calc(100%-3rem)] max-w-5xl rounded-full px-6 py-4 flex justify-between items-center ${scrolled ? 'bg-[#FFFFFF]/90 backdrop-blur-md shadow-[0_10px_40px_rgba(22,22,22,0.05)] border border-[#161616]/10 md:scale-[0.98]' : 'bg-transparent'}`}
       >
-        <a href="#hero" className="font-display font-bold text-xl tracking-tight text-[#161616]">AMAN</a>
+        <a href="#hero" onDoubleClick={() => window.location.href = '/admin'} className="font-display font-bold text-xl tracking-tight text-[#161616] select-none" data-cursor="hover">AMAN</a>
 
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map(link => (

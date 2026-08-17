@@ -10,6 +10,7 @@ export default function Footer() {
           <div className="flex gap-8">
              <a href="#" className="hover:text-[#FFFFFF] transition-colors">Privacy</a>
              <a href="#" className="hover:text-[#FFFFFF] transition-colors">Terms</a>
+             <a href="/admin" className="hover:text-[#FFFFFF] transition-colors">Admin</a>
           </div>
        </div>
     </footer>
