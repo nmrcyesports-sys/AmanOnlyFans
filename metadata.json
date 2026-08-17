@@ -1,0 +1,6 @@
+{
+  "name": "AMAAN - Digital Identity",
+  "description": "A high-end personal digital identity for AMAAN (@amaaan._.1), combining a cinematic portfolio, Instagram profile, and lifestyle showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
