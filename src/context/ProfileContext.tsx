@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export interface ProfileData {
   displayName: string;
@@ -42,17 +44,33 @@ interface ProfileContextType {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export const ProfileProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<ProfileData>(() => {
-    const saved = localStorage.getItem('profileData');
-    return saved ? JSON.parse(saved) : defaultData;
-  });
+  const [data, setData] = useState<ProfileData>(defaultData);
+  const profileDocRef = doc(db, 'profile', 'main');
 
   useEffect(() => {
-    localStorage.setItem('profileData', JSON.stringify(data));
-  }, [data]);
+    // Listen to real-time updates from Firestore
+    const unsubscribe = onSnapshot(profileDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setData(docSnap.data() as ProfileData);
+      } else {
+        // If it doesn't exist, seed it with default data
+        setDoc(profileDocRef, defaultData);
+      }
+    }, (error) => {
+      console.error("Firestore Error:", error);
+    });
 
-  const updateProfile = (newData: Partial<ProfileData>) => {
-    setData(prev => ({ ...prev, ...newData }));
+    return () => unsubscribe();
+  }, []);
+
+  const updateProfile = async (newData: Partial<ProfileData>) => {
+    const updatedData = { ...data, ...newData };
+    setData(updatedData); // Optimistic UI update
+    try {
+      await setDoc(profileDocRef, updatedData, { merge: true });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
 
   return (

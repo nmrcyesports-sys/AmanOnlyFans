@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /profile/{document=**} {
+      // Allow read and write for the demo since there is no authentication set up
+      allow read, write: if true;
+    }
+  }
+}
