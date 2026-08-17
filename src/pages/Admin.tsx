@@ -43,6 +43,11 @@ export default function Admin() {
   const [formData, setFormData] = useState<ProfileData>(data);
   const [saved, setSaved] = useState(false);
 
+  // Sync formData when data loads from Firestore
+  React.useEffect(() => {
+    setFormData(data);
+  }, [data]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setSaved(false);
